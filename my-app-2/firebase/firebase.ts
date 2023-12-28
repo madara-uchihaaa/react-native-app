@@ -1,3 +1,5 @@
+// https://console.firebase.google.com/u/1/project/react-native-b64f6/overview
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';

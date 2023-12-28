@@ -1,9 +1,10 @@
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
 import { User } from '../models/user';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { firebaseAuth } from '../firebase/firebase';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 export interface UserStore {
     user: User;
@@ -25,7 +26,7 @@ const useUserStore = create<UserStore>()(
                         password).then(res => {
                             const user = res.user;
                             if (user) {
-                                set({ user: new User(user) });
+                                set((state) => ({ user: new User(user) }));
                             }
                         }).catch(err => {
                             console.error('Sign in error:', err);
@@ -34,7 +35,7 @@ const useUserStore = create<UserStore>()(
                 },
                 signOut: () => {
                     firebaseAuth.signOut().then(() => {
-                        set({ user: new User({}) });
+                        set((state) => ({ user: new User({}) }));
                     }).catch(err => {
                         console.log('Error while signOut', err);
                         throw err;
@@ -48,7 +49,7 @@ const useUserStore = create<UserStore>()(
                     ).then(res => {
                         const user = res.user;
                         if (user) {
-                            set({ user: new User(user) });
+                            set((state) => ({ user: new User(user) }));
                         }
                     }).catch(err => {
                         console.log('Error while sigin', err);
@@ -56,7 +57,8 @@ const useUserStore = create<UserStore>()(
                     })
                 },
             }),
-            { name: 'user-store' },
+            { name: 'user-store', storage: createJSONStorage(() => AsyncStorage) },
+
         )
     )
 );

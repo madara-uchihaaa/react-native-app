@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as React from "react";
 import { Chat } from "../models/chat";
 import Chats from "../pages/Chat";
+import Question from "../pages/Question";
 
 const chats: Chat[][] = [
   [],
@@ -63,22 +64,21 @@ export default function ChatTab() {
   return (
     <NavigationContainer>
       <Drawer.Navigator>
-        {chats && chats.length > 0
-          ? chats.map((chat, index) => {
-              return (
-                <Drawer.Screen
-                  name={`${index + 1}: ${
-                    chat[0]?.question ? chat[0].question : "No questions found"
-                  }`}
-                  component={Chats}
-                  key={index}
-                  initialParams={{
-                    chat: chat,
-                  }}
-                />
-              );
-            })
-          : null}
+        <Drawer.Screen name="Question" component={Question} />
+        {chats &&
+          chats.length > 0 &&
+          chats.map((chat, index) => (
+            <Drawer.Screen
+              name={`${index + 1}: ${
+                chat[0]?.question ? chat[0].question : "No questions found"
+              }`}
+              component={Chats}
+              key={index}
+              initialParams={{
+                chat: chat,
+              }}
+            />
+          ))}
       </Drawer.Navigator>
     </NavigationContainer>
   );

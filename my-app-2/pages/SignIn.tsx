@@ -19,7 +19,9 @@ export default function SignIn() {
     event.preventDefault();
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("userState in signin", userState.email);
+  }, [userState]);
 
   return (
     <View style={styles.container}>

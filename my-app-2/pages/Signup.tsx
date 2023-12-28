@@ -1,11 +1,20 @@
-import { StyleSheet, Text, TextInput, View, ProgressBarAndroid, Alert } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ProgressBarAndroid,
+  Alert,
+} from "react-native";
+import React, { useEffect } from "react";
 import { UserRegister } from "../models/user";
 import MyButton from "../components/Button";
 import { Link } from "@react-navigation/native";
 import useUserStore from "../store/auth";
 
-export default function Signup() {
+export default function Signup({ navigation }) {
+  const userState = useUserStore((state) => state.user);
+
   const userRegister = new UserRegister({});
 
   const userSignUp = useUserStore((state) => state.register);
@@ -34,6 +43,7 @@ export default function Signup() {
       setUser(userRegister);
     }
   };
+  useEffect(() => {}, [userState]);
 
   return (
     <View style={styles.container}>
